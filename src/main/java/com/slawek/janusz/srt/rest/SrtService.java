@@ -13,20 +13,38 @@ import org.springframework.stereotype.Component;
 
 import com.slawek.janusz.srt.db.Database;
 
+/**
+ * This class is responsible for processing requests from users. It receives GET
+ * HTTP requests to shorten URLs or lookup URLs.
+ * 
+ * @author janusz
+ * 
+ */
 @Component
 @Path("/")
 public class SrtService {
 
+	/**
+	 * Inversion of control, by Spring framework, is used to inject this field.
+	 * This is a database that will store all the mappings between short and
+	 * long URLs.
+	 */
 	@Autowired
 	Database db;
 
+	/**
+	 * This method is responsible for shortening requests.
+	 * 
+	 * @param url
+	 * @return
+	 */
 	@GET
 	@Path("/s")
 	public Response shorten(@QueryParam("url") String url) {
 		String shortUrl;
 
 		if (isValidURL(url)) {
-			shortUrl = db.shortenLongUrl(url);
+			shortUrl = db.map(url);
 		} else {
 			shortUrl = "url not valid";
 		}
@@ -34,6 +52,12 @@ public class SrtService {
 		return Response.status(200).entity(shortUrl).build();
 	}
 
+	/**
+	 * This method is responsible for lookup requests.
+	 * 
+	 * @param url
+	 * @return
+	 */
 	@GET
 	@Path("/l")
 	public Response lookup(@QueryParam("url") String url) {
@@ -41,7 +65,7 @@ public class SrtService {
 		String longUrl = null;
 
 		if (isValidURL(url)) {
-			longUrl = db.lookupShortUrl(url);
+			longUrl = db.lookup(url);
 			response = longUrl == null ? "url not found" : longUrl;
 		} else {
 			response = "url not valid";
@@ -50,6 +74,12 @@ public class SrtService {
 		return Response.status(200).entity(response).build();
 	}
 
+	/**
+	 * This is a helper method that checks if input is a valid URL.
+	 * 
+	 * @param url
+	 * @return
+	 */
 	private boolean isValidURL(String url) {
 		boolean valid = true;
 		try {

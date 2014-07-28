@@ -28,14 +28,14 @@ public class UrlDatabaseUnitTest {
 	@Test
 	public void testBasicDifference() {
 		Database db = new UrlDatabase("http://srt.com/", "alphabet");
-		assertNotSame(db.shortenLongUrl("http://a"),
-				db.shortenLongUrl("http://b"));
+		assertNotSame(db.map("http://a"),
+				db.map("http://b"));
 	}
 
 	@Test
 	public void testSimpleMapping() {
 		Database db = new UrlDatabase("http://srt.com/", "alphabet");
-		String shortUrl = db.shortenLongUrl("http://a");
-		assertEquals("http://a", db.lookupShortUrl(shortUrl));
+		String shortUrl = db.map("http://a");
+		assertEquals("http://a", db.lookup(shortUrl));
 	}
 }
