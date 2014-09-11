@@ -35,8 +35,8 @@ public class SrtService {
 	/**
 	 * This method is responsible for shortening requests.
 	 * 
-	 * @param url
-	 * @return
+	 * @param url Long url to be shortened
+	 * @return HTTP response with shortened url
 	 */
 	@GET
 	@Path("/s")
@@ -55,14 +55,14 @@ public class SrtService {
 	/**
 	 * This method is responsible for lookup requests.
 	 * 
-	 * @param url
-	 * @return
+	 * @param url Short url to be looked-up
+	 * @return HTTP response with long url
 	 */
 	@GET
 	@Path("/l")
 	public Response lookup(@QueryParam("url") String url) {
-		String response = null;
-		String longUrl = null;
+		String response;
+		String longUrl;
 
 		if (isValidURL(url)) {
 			longUrl = db.lookup(url);
@@ -77,8 +77,8 @@ public class SrtService {
 	/**
 	 * This is a helper method that checks if input is a valid URL.
 	 * 
-	 * @param url
-	 * @return
+	 * @param url Url to be validated
+	 * @return true if it is a valid url, false otherwise
 	 */
 	private boolean isValidURL(String url) {
 		boolean valid = true;
