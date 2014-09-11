@@ -48,7 +48,7 @@ public class UrlDatabase implements Database {
 		}
 
 		base = removeDuplicates(alphabet).toCharArray();
-		if (base == null || base.length <= 1) {
+		if (base.length <= 1) {
 			throw new RuntimeException("alphabet not valid");
 		}
 
@@ -96,8 +96,8 @@ public class UrlDatabase implements Database {
 	/**
 	 * This is a helper function. It checks if input is a valid URL.
 	 * 
-	 * @param url
-	 * @return
+	 * @param url Url to be checked
+	 * @return true if input is a valid url, false otherwise
 	 */
 	private boolean isValidURL(String url) {
 		boolean valid = true;
@@ -114,11 +114,11 @@ public class UrlDatabase implements Database {
 	 * in alphabet {k,l,m} consecutive numbers are represented as follows: 0 -
 	 * k, 1 - l, 2 - m, 3 - lk, 4 - ll, 5 - lm, etc...
 	 * 
-	 * @param n
-	 * @return
+	 * @param n number to be converted to a string
+	 * @return string representation of number
 	 */
 	private String num2str(int n) {
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 		do {
 			result.append(base[n % base.length]);
 			n /= base.length;
@@ -130,8 +130,8 @@ public class UrlDatabase implements Database {
 	 * This function removes duplicates from a string and shuffles characters of
 	 * that string.
 	 * 
-	 * @param s
-	 * @return
+	 * @param s String possibly with duplicates
+	 * @return String without duplicates
 	 */
 	private String removeDuplicates(String s) {
 		char[] chars = s.toCharArray();
